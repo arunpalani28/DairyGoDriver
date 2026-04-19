@@ -34,7 +34,7 @@ class _SplashState extends State<SplashScreen> {
     body: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       const Text('🚚', style: TextStyle(fontSize: 72)),
       const SizedBox(height: 18),
-      const Text('DairyGo Driver', style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700, color: Colors.white)),
+      const Text('Aavinam Driver', style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700, color: Colors.white)),
       const SizedBox(height: 6),
       const Text('Deliver fresh every morning', style: TextStyle(fontSize: 13, color: Color(0xFFA5D6A7))),
       const SizedBox(height: 48),
@@ -55,6 +55,7 @@ class _LoginState extends State<LoginScreen> {
   String? _error;
   int _resendSecs = 0;
   Timer? _timer;
+  String? _otpNumber; 
 
   @override void dispose() { _mobileCtrl.dispose(); _otpCtrl.dispose(); _timer?.cancel(); super.dispose(); }
 
@@ -63,8 +64,8 @@ class _LoginState extends State<LoginScreen> {
     if (m.length < 10) { setState(() => _error = 'Enter a valid 10-digit mobile number'); return; }
     setState(() { _loading = true; _error = null; });
     try {
-      await ApiClient.post('/auth/send-otp', {'mobile': m});
-      setState(() { _otpSent = true; _loading = false; _resendSecs = 30; });
+      final res= await ApiClient.post('/auth/send-otp', {'mobile': m});
+      setState(() { _otpNumber= res["data"];_otpSent = true; _loading = false; _resendSecs = 30; });
       _timer?.cancel();
       _timer = Timer.periodic(const Duration(seconds: 1), (_) {
         if (_resendSecs <= 0) { _timer?.cancel(); setState(() {}); return; }
@@ -99,7 +100,7 @@ class _LoginState extends State<LoginScreen> {
       const Expanded(flex: 2, child: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Text('🚚', style: TextStyle(fontSize: 60)),
         SizedBox(height: 12),
-        Text('DairyGo Driver', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: Colors.white)),
+        Text('Aavinam Driver', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: Colors.white)),
         Text('Driver Login', style: TextStyle(fontSize: 13, color: Color(0xFFA5D6A7))),
       ]))),
       Expanded(flex: 3, child: Container(
@@ -109,7 +110,7 @@ class _LoginState extends State<LoginScreen> {
           Text(_otpSent ? 'Enter OTP' : 'Driver Sign In',
               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: kTextDark)),
           const SizedBox(height: 4),
-          Text(_otpSent ? 'OTP sent to ${_mobileCtrl.text}' : 'Enter your registered mobile number',
+          Text(_otpSent ? 'OTP is ${_otpNumber}' : 'Enter your registered mobile number',
               style: const TextStyle(fontSize: 13, color: kTextMid)),
           const SizedBox(height: 24),
           if (!_otpSent)
@@ -119,7 +120,7 @@ class _LoginState extends State<LoginScreen> {
               decoration: BoxDecoration(color: kGreenLt, borderRadius: BorderRadius.circular(10)),
               child: Row(children: [
                 const Icon(Icons.check_circle_rounded, color: kGreen, size: 16), const SizedBox(width: 8),
-                Text('OTP sent to +91 ${_mobileCtrl.text}', style: const TextStyle(fontSize: 12, color: kGreen, fontWeight: FontWeight.w600)),
+                Text('OTP is ${_otpNumber}', style: const TextStyle(fontSize: 12, color: kGreen, fontWeight: FontWeight.w600)),
               ])),
             const SizedBox(height: 14),
             _field('6-digit OTP', _otpCtrl, keyboardType: TextInputType.number, maxLength: 6),

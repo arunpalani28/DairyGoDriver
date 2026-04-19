@@ -14,7 +14,7 @@ class DairyGoDriverApp extends StatelessWidget {
   const DairyGoDriverApp({super.key});
   @override
   Widget build(BuildContext context) => MaterialApp(
-    title: 'DairyGo Driver',
+    title: 'Aavinam Driver',
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
       useMaterial3: true,
