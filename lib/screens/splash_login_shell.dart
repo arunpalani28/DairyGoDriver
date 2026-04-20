@@ -32,11 +32,14 @@ class _SplashState extends State<SplashScreen> {
   @override Widget build(BuildContext context) => Scaffold(
     backgroundColor: kGreen,
     body: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      const Text('🚚', style: TextStyle(fontSize: 72)),
-      const SizedBox(height: 18),
-      const Text('Aavinam Driver', style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700, color: Colors.white)),
-      const SizedBox(height: 6),
-      const Text('Deliver fresh every morning', style: TextStyle(fontSize: 13, color: Color(0xFFA5D6A7))),
+      
+Image.asset(
+  'assets/app_logo.png',
+  errorBuilder: (context, error, stackTrace) {
+    print("Asset Error: $error"); // Look at your terminal/debug console
+    return Text("Could not find image: $error");
+  },
+),
       const SizedBox(height: 48),
       const CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
     ])),
@@ -98,10 +101,16 @@ class _LoginState extends State<LoginScreen> {
     backgroundColor: kGreen,
     body: SafeArea(child: Column(children: [
       const Expanded(flex: 2, child: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Text('🚚', style: TextStyle(fontSize: 60)),
-        SizedBox(height: 12),
-        Text('Aavinam Driver', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: Colors.white)),
-        Text('Driver Login', style: TextStyle(fontSize: 13, color: Color(0xFFA5D6A7))),
+        Image.asset(
+             'assets/app_logo.png',
+              width: 220,
+              height: 220,
+              fit: BoxFit.contain,
+            ),
+        // Text('🚚', style: TextStyle(fontSize: 60)),
+        // SizedBox(height: 12),
+        // Text('Aavinam Driver', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: Colors.white)),
+        Text('Driver Management', style: TextStyle(fontSize: 13, color: Color(0xFFA5D6A7))),
       ]))),
       Expanded(flex: 3, child: Container(
         decoration: const BoxDecoration(color: kBg, borderRadius: BorderRadius.vertical(top: Radius.circular(28))),
