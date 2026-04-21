@@ -100,7 +100,7 @@ class _LoginState extends State<LoginScreen> {
   @override Widget build(BuildContext context) => Scaffold(
     backgroundColor: kGreen,
     body: SafeArea(child: Column(children: [
-      const Expanded(flex: 2, child: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Expanded(flex: 2, child: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Image.asset(
              'assets/app_logo.png',
               width: 220,
